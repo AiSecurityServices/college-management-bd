@@ -26,6 +26,8 @@ const users = [
   }
 ]
 
+export const runtime = 'nodejs'
+
 export async function GET(request: NextRequest) {
   try {
     const authUser = getUserFromRequest(request)

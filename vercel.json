@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "name": "college-management-bd",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "env": {
+    "JWT_SECRET": "@jwt-secret",
+    "NEXTAUTH_SECRET": "@nextauth-secret",
+    "NEXTAUTH_URL": "@nextauth-url",
+    "NEXT_PUBLIC_API_URL": "@next-public-api-url"
+  }
+}
