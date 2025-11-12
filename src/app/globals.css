@@ -4,11 +4,13 @@
 
 @layer base {
   * {
-    @apply border-gray-200;
+    border-color: #e5e7eb;
   }
   body {
-    @apply bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 text-gray-900;
+    background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #f3e8ff 100%);
+    color: #111827;
     font-feature-settings: "rlig" 1, "calt" 1;
+    min-height: 100vh;
   }
 }
 

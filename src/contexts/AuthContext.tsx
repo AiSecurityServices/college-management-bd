@@ -35,10 +35,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/me')
-      if (response.ok) {
-        const userData = await response.json()
-        setUser(userData.user)
+      // Use mock authentication for static deployment
+      const { MockAuthService } = await import('@/lib/mockAuth')
+      const authService = MockAuthService.getInstance()
+      
+      const userData = authService.getCurrentUser()
+      if (userData) {
+        setUser(userData)
       }
     } catch (error) {
       console.error('Auth check failed:', error)
@@ -52,24 +55,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(true)
       setError(null)
 
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, userType }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed')
-      }
-
-      setUser(data.user)
+      // Use mock authentication for static deployment
+      const { MockAuthService } = await import('@/lib/mockAuth')
+      const authService = MockAuthService.getInstance()
+      
+      const userData = await authService.login(email, password, userType)
+      setUser(userData)
       
       // Redirect to appropriate dashboard
-      router.push(`/dashboard/${data.user.role}`)
+      router.push(`/dashboard/${userData.role}`)
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Login failed')
       throw error
@@ -82,10 +76,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true)
       
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-      })
-
+      // Use mock authentication for static deployment
+      const { MockAuthService } = await import('@/lib/mockAuth')
+      const authService = MockAuthService.getInstance()
+      
+      await authService.logout()
       setUser(null)
       router.push('/')
     } catch (error) {
